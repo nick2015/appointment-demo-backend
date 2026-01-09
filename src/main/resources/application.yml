@@ -1,0 +1,13 @@
+server:
+  port: 8888
+
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/tarodemo?useSSL=false&serverTimezone=UTC
+    username: root
+    password: nick2015
+
+mybatis-flex:
+  mapper-locations: classpath:/mapper/*.xml
+  global-config:
+    print-banner: false

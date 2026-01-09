@@ -1,0 +1,29 @@
+package com.nick.TaroDemo.entity;
+
+import com.mybatisflex.annotation.Column;
+import com.mybatisflex.annotation.Id;
+import com.mybatisflex.annotation.Table;
+import lombok.Data;
+
+import java.time.ZonedDateTime;
+import java.util.Date;
+
+@Data
+@Table("appointment")
+public class Appointment {
+
+    @Id
+    private String id;
+
+    @Column("USER_ID")
+    private String userId;
+
+    @Column("SUBJECT")
+    private String subject;
+
+    @Column("START_TIME")
+    private ZonedDateTime startTime;
+
+    @Column("END_TIME")
+    private ZonedDateTime endTime;
+}
