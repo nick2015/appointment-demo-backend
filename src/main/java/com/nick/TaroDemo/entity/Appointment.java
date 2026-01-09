@@ -1,7 +1,9 @@
 package com.nick.TaroDemo.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.mybatisflex.annotation.Column;
 import com.mybatisflex.annotation.Id;
+import com.mybatisflex.annotation.KeyType;
 import com.mybatisflex.annotation.Table;
 import lombok.Data;
 
@@ -12,8 +14,9 @@ import java.util.Date;
 @Table("appointment")
 public class Appointment {
 
-    @Id
-    private String id;
+    @Id(keyType = KeyType.Generator, value = "snowFlakeId")
+    @Column("ID")
+    private Long id;
 
     @Column("USER_ID")
     private String userId;
@@ -22,8 +25,10 @@ public class Appointment {
     private String subject;
 
     @Column("START_TIME")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private ZonedDateTime startTime;
 
     @Column("END_TIME")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private ZonedDateTime endTime;
 }

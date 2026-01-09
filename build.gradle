@@ -31,6 +31,7 @@ dependencies {
 
 	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.3'
 	implementation 'com.mybatis-flex:mybatis-flex-spring-boot-starter:1.7.9'
+	annotationProcessor 'com.mybatis-flex:mybatis-flex-processor:1.7.9'
 
 	implementation "com.mysql:mysql-connector-j:9.4.0"
 

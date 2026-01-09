@@ -9,7 +9,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.ZonedDateTime;
 import java.util.List;
+import static com.nick.TaroDemo.entity.table.AppointmentTableDef.APPOINTMENT;
 
 @Service
 @Slf4j
@@ -19,9 +21,12 @@ public class AppointmentService {
     private AppointmentMapper appointmentMapper;
 
     public List<Appointment> getList(String userId) {
-        QueryWrapper queryWrapper = new QueryWrapper();
-        queryWrapper.orderBy("START_TIME", true);
-        return appointmentMapper.selectListByQuery(queryWrapper);
+        QueryWrapper query = QueryWrapper.create()
+                .select()
+                .from(Appointment.class) // APPOINTMENT 是自动生成的 TableDef 类
+                .where(APPOINTMENT.USER_ID.eq(userId))
+                .orderBy(APPOINTMENT.START_TIME.asc());
+        return appointmentMapper.selectListByQuery(query);
     }
 
     public int deleteById(String id) {
@@ -29,12 +34,15 @@ public class AppointmentService {
     }
 
     public Appointment save(Appointment appointment) {
-        QueryWrapper queryWrapper = new QueryWrapper();
-        queryWrapper.and("USER_ID", appointment.getUserId());
+        QueryWrapper query = QueryWrapper.create()
+                .select()
+                .from(Appointment.class) // APPOINTMENT 是自动生成的 TableDef 类
+                .where(APPOINTMENT.USER_ID.eq(appointment.getUserId()));
         if (null != appointment.getId()) {
-            queryWrapper.ne("ID", appointment.getId());
+            query.and(APPOINTMENT.ID.ne(appointment.getId()));
         }
-        List<Appointment> appointments = appointmentMapper.selectListByQuery(queryWrapper);
+
+        List<Appointment> appointments = appointmentMapper.selectListByQuery(query);
         boolean conflicted = appointments.stream().anyMatch(item -> appointment.getStartTime().isBefore(item.getEndTime())
                 && item.getStartTime().isBefore(appointment.getEndTime()));
         if (conflicted) {

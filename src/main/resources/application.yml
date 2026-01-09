@@ -6,8 +6,17 @@ spring:
     url: jdbc:mysql://localhost:3306/tarodemo?useSSL=false&serverTimezone=UTC
     username: root
     password: nick2015
+  jackson:
+    # 返回给前端的格式
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+    # 禁用将日期转为时间戳
+    serialization:
+      write-dates-as-timestamps: false
 
 mybatis-flex:
   mapper-locations: classpath:/mapper/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
   global-config:
     print-banner: false

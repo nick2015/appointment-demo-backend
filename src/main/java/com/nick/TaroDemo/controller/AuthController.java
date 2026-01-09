@@ -20,10 +20,10 @@ public class AuthController {
 
     @GetMapping("/sendCode")
     @NoAuthCheck
-    public ResponseEntity<String> sendCode(@RequestParam("phoneNumber") String phoneNumber) {
+    public ResultEntity sendCode(@RequestParam("phoneNumber") String phoneNumber) {
         //TODO try to block same ip requesting for many times per day
         authService.sendVerificationCode(phoneNumber);
-        return ResponseEntity.ok("验证码已发送");
+        return new ResultEntity(ResultEnum.SUCCESS);
     }
 
     @PostMapping("/login")

@@ -59,7 +59,7 @@ public class LoginInterceptor implements HandlerInterceptor {
 
             // get user cache
             UserInfo userInfo = tokenCache.getIfPresent(authToken);
-            if (null != userInfo){
+            if (null == userInfo){
                 this.setAuthResponse(response);
                 return false;
             }
