@@ -1,5 +1,7 @@
+drop table if exists appointment;
+
 CREATE TABLE appointment (
-  ID int(40) PRIMARY KEY,
+  ID BIGINT(20) PRIMARY KEY,
   USER_ID VARCHAR(20),
   SUBJECT varchar(200),
   START_TIME datetime,
