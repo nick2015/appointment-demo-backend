@@ -28,11 +28,12 @@ public class AuthController {
 
     @PostMapping("/login")
     @NoAuthCheck
-    public ResultEntity<LoginResponse> login(@Validated @RequestBody LoginRequest request) {
-        LoginResponse response = authService.loginByPhone(request.getPhoneNumber(), request.getSmsCode());
-        if (response != null) {
-            return new ResultEntity<>(response);
-        }
-        return new ResultEntity<>(ResultEnum.SMS_CODE_EXPIRED);
+    public ResultEntity<LoginResponse> login(@RequestBody LoginRequest request) {
+        return authService.loginByPhone(request.getPhoneNumber(), request.getSmsCode());
+    }
+
+    @GetMapping("/tokenCheck")
+    public ResultEntity check() {
+        return new ResultEntity<>(ResultEnum.SUCCESS);
     }
 }

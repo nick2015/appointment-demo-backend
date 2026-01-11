@@ -2,7 +2,9 @@ package com.nick.TaroDemo.service;
 
 import com.github.benmanes.caffeine.cache.Cache;
 import com.nick.TaroDemo.dto.LoginResponse;
+import com.nick.TaroDemo.dto.ResultEntity;
 import com.nick.TaroDemo.entity.UserInfo;
+import com.nick.TaroDemo.util.ResultEnum;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.checkerframework.checker.units.qual.A;
@@ -32,13 +34,17 @@ public class AuthService {
         log.info("send sms code {} to phone {} ", code, phone);
     }
 
-    public LoginResponse loginByPhone(String phone, String code) {
+    public ResultEntity<LoginResponse> loginByPhone(String phone, String code) {
         // check sms code
         String savedCode = smsCodeCache.getIfPresent(phone);
-        if (savedCode == null || !savedCode.equals(code)) {
+        if (savedCode == null) {
             log.warn("sms code is expired or user did not send the sms code");
-            return null;
+            return new ResultEntity(ResultEnum.SMS_CODE_EXPIRED);
+        } else if (!savedCode.equals(code)) {
+            log.warn("sms code not match");
+            return new ResultEntity(ResultEnum.SMS_CODE_ERROR);
         }
+        // verify sms code success
         smsCodeCache.invalidate(phone);
 
         // set token into cache
@@ -46,6 +52,7 @@ public class AuthService {
         UserInfo userInfo = new UserInfo(phone);
         tokenCache.put(token, userInfo);
 
-        return new LoginResponse(token, userInfo.getUserId());
+        LoginResponse loginResponse = new LoginResponse(token, userInfo.getUserId());
+        return new ResultEntity<>(loginResponse);
     }
 }

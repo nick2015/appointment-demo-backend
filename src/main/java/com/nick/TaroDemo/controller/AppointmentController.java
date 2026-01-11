@@ -28,6 +28,7 @@ public class AppointmentController {
 
     @DeleteMapping("/delete")
     public ResultEntity deleteAppointment(@RequestParam("id")String id) {
+        appointmentService.deleteById(id);
         return new ResultEntity(ResultEnum.SUCCESS);
     }
 }

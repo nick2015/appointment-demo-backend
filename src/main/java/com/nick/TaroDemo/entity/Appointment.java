@@ -1,6 +1,8 @@
 package com.nick.TaroDemo.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.mybatisflex.annotation.Column;
 import com.mybatisflex.annotation.Id;
 import com.mybatisflex.annotation.KeyType;
@@ -16,6 +18,7 @@ public class Appointment {
 
     @Id(keyType = KeyType.Generator, value = "snowFlakeId")
     @Column("ID")
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long id;
 
     @Column("USER_ID")
